@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}ZHNG - Shopping Cart{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Shopping Cart</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no products in the cart.</p>
+  {% elif count == 1 %}
+  <p>There is 1 product in the cart.</p>
+  {% else %}
+  <p>There are {{ count }} products in the cart.</p>
+  {% endif %}
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Cart ID</th>
+        <th>Description</th>
+        <th>Color</th>
+        <th>Qty</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for detail in cart_list %}
+      <tr>
+        <td>{{ detail.get_cart_id() }}</td>
+        <td>
+            <a style="text-decoration: none" href="{{ url_for('view_product2', id=detail.get_product_id()) }}">{{ detail.get_description() }}</a>
+         </td>
+        <td>{{ detail.get_color() }}</td>
+        <td>{{ detail.get_qty() }}</td>
+        <td>{{ detail.get_price() }}</td>
+        <td><a href="{{ url_for('update_cart', cart_id=detail.get_cart_id())}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{detail.get_cart_id()}}">Delete</button>
+        </td>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{detail.get_cart_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to cancel order of {{detail.get_description()}} X {{detail.get_qty()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <a href="{{url_for('delete_cart', cart_id=detail.get_cart_id())}}"><button type="button" class="btn btn-danger">Delete</button></a>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <h1 class="display-4"> Total amount = ${{total_amount}} </h1>
+</div>
+
+
+
+  <form action="{{url_for('shipping')}}">
+  <input type="submit" value="Proceed to Shipping" class="btn btn-warning">
+  </form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}ZHNG - View Centre{% endblock %}
+
+{% block content %}
+<body>
+<h1>View Centre</h1>
+<div>
+    {% if count == 0 %}
+    <p>There are no centres</p>
+    {% elif count == 1 %}
+    <p>There is 1 centre</p>
+    {% else %}
+    <p>There are {{ count }} centres</p>
+    {% endif %}
+</div>
+{% from "includes/_formHelper.html" import render_field %}
+<div>
+    <form action="" method="post">
+        <div class="form-group">
+            {{ render_field(form.f_type, class="form-control", id="form_form") }}
+        </div>
+        <input type="submit" value="submit" class="btn btn-primary" style="text-align:center;">
+    </form>
+</div>
+
+    {% for Centre in centre_list %}
+    <div class="col-sm-3" style="float:left;">
+    <div class="card">
+        <div class="container">
+            {% if Centre.get_type() == 'Car' %}
+                <img src="../static/car_servicing.jpg" alt="car" class="type">
+            {% elif Centre.get_type() == 'Motorcycle' %}
+                <img src="../static/motorcycle_servicing.jpg" alt="motorcycle" class="type">
+            {% else %}
+                <img src="../static/bike_servicing.jpg" alt="bicycle" class="type">
+            {% endif %}
+            <h3>{{ Centre.get_name() }}</h3>
+            <p><h5>Centre Code:</h5>  {{ Centre.get_code() }}</p>
+            <p><h5>Location:</h5>  {{ Centre.get_location() }}</p>
+            <p><h5>Centre Type:</h5>  {{ Centre.get_type() }}</p>
+            <p>
+            <a href="/updateCentre/{{ Centre.get_centre_id() }}" class="btn btn-warning">Update</a>
+            &nbsp;<a href="/book/{{ Centre.get_centre_code() }}" class="btn btn-primary">Book now</a>
+            </p>
+        </div>
+    </div>
+    </div>
+</body>
+    {% endfor %}
+
+{% endblock %}
+

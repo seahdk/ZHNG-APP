@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Customer Sign Up page{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<h3 class="display-4" align="center">ZHNG</h3>
+<br>
+<h3 align="center">YOUR ONE STOP SERVICING CENTER</h3>
+<br>
+
+<form method="POST" action="">
+  <div class="form-group">
+    {{ render_field(form.username, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.first_name, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.last_name, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.email, class="form-control") }}
+  </div>
+   <div class="form-group">
+    {{ render_field(form.mobile_number, class="form-control") }}
+  </div>
+   <div class="form-group">
+    {{ render_field(form.date_joined, class="form-control datepicker") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.address, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.password, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.confirm_password, class="form-control") }}
+  </div>
+  <br>
+  <input type="submit" value="Submit" class="btn btn-primary"/>
+</form>
+{% endblock %}

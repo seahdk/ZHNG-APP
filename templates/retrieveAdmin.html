@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Retrieve Admins{% endblock %}
+
+{% block content %}
+{% if 'admin_created' in session %}
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('admin_created', None) }} was created.
+</div>
+
+{% elif 'admin_updated' in session %}
+<div class="alert alert-warning alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('admin_updated', None) }} was updated.
+</div>
+
+{% elif 'admin_deleted' in session %}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('admin_deleted', None) }} was deleted.
+</div>
+{% endif %}
+
+<h1 class="display-4">Retrieve Admins</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no admins.</p>
+  {% elif count == 1 %}
+  <p>There is 1 admin.</p>
+  {% else %}
+  <p>There are {{ count }} admins.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for admin in admins_list %}
+      <tr>
+        <td>{{ admin.get_username() }}</td>
+        <td>{{ admin.get_email() }}</td>
+
+        <td><a href="/updateAdmin/{{admin.get_admin_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_user', id=admin.get_admin_id())}}" method="POST">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{admin.get_admin_id()}}">
+              Delete
+            </button>
+
+            <!-- The Modal -->
+            <div class="modal" id="myModal_{{admin.get_admin_id()}}">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                  Are you sure you want to delete {{admin.get_first_name()}} {{admin.get_last_name()}}?
+                  </div>
+
+
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_first_name()}} {{user.get_last_name()}}?');">
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+
+
+    </tbody>
+  </table>
+</div>
+{% endblock %}

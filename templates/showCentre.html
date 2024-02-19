@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}ZHNG - Filter Centre{% endblock %}
+
+{% block content %}
+<body>
+<h1>Filter Centre</h1>
+<div>
+    {% if count == 0 %}
+    <p>There are no centres</p>
+    {% elif count == 1 %}
+    <p>There is 1 centre</p>
+    {% else %}
+    <p>There are {{ count }} centres</p>
+    {% endif %}
+</div>
+
+    {% for Centre in centre_list_1 %}
+    <div class="col-sm-3" style="float:left;">
+    <div class="card">
+        <div class="container">
+            {% if Centre.get_type() == 'Car' %}
+                <img src="../static/images/car_servicing.jpg" alt="car" class="type">
+            {% elif Centre.get_type() == 'Motorcycle' %}
+                <img src="../static/images/motorcycle_servicing.jpg" alt="motorcycle" class="type">
+            {% else %}
+                <img src="../static/images/bike_servicing.jpg" alt="bicycle" class="type">
+            {% endif %}
+            <h3>{{ Centre.get_name() }}</h3>
+            <p><h5>Centre Code:</h5>  {{ Centre.get_code() }}</p>
+            <p><h5>Location:</h5>  {{ Centre.get_location() }}</p>
+            <p><h5>Centre Type:</h5>  {{ Centre.get_type() }}</p>
+            <p>
+            <a href="/updateCentre/{{ Centre.get_centre_id() }}" class="btn btn-warning">Update</a>
+            &nbsp;
+            <form action="{{ url_for('delete_centre', id=Centre.get_centre_id()) }}" method="POST">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{Centre.get_centre_id() }}">
+                        Delete
+                    </button>
+
+                    <div class="modal" id="myModal_{{Centre.get_centre_id()}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete Confirmation</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    Are you sure you want to delete {{Centre.get_name()}}?
+                                </div>
+
+                                <div class="modal-footer">
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </p>
+        </div>
+    </div>
+    </div>
+</body>
+    {% endfor %}
+
+
+<style>
+
+    body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+  background-repeat: no-repeat
+  background-attachment: fixed;
+  background-size: cover;
+  font:white;
+}
+
+/* home css */
+.background {
+text-align: center;
+font-size: 30px;
+color: white;
+background-color: black;
+width: 100%;
+height: 50%;
+padding: 17.5%;
+}
+.home-content {
+padding-top: 175px;
+text-align: center;
+}
+
+img {
+border-radius: 50%;
+height: 15vw;
+width: 15vw;
+}
+
+.choice-box {
+background-color: white;
+height: 500px;
+witdh: 100%;
+box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+border: 1px solid black;
+border-radius: 5px;
+max-width:450px;
+transition: 0.3s;
+display: inline-block;
+}
+
+/* create and retrieve css*/
+.table table-striped {
+max-width: 90%;
+background: white;
+}
+
+.form-container {
+     width: 80%;
+     height: 90%;
+     border: 0px;
+     margin: 30px;
+     background: white;
+     position: relative;
+     }
+
+.form-control {
+list-style-type:none;
+max-width:40%;
+}
+#form_form {
+max-width:400px;
+}
+
+/* retrieve css */
+.card {
+box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+border: 1px solid black;
+border-radius: 5px;
+max-width:450px;
+transition: 0.3s;
+display: inline-block;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.container {
+height: 100%;
+width: 100%
+margin: 30px;
+text-align: center;
+padding: 2px 16px;
+}
+
+
+
+
+</style>
+{% endblock %}
+

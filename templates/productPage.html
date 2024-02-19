@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}ZHNG - Centre List{% endblock %}
+
+{% block content %}
+<body>
+<h1>Product Page</h1>
+<div>
+    {% if count == 0 %}
+    <p>There are no product</p>
+    <a href="/searchProduct" class="btn btn-primary">Search Products</a>
+    {% elif count == 1 %}
+    <p>There is 1 product</p>
+    <a href="/searchProduct" class="btn btn-primary">Search Products</a>
+    {% else %}
+    <p>There are {{ count }} products</p>
+    <a href="/searchProduct" class="btn btn-primary">Search Products</a>
+    {% endif %}
+
+</div>
+<br>
+    {% for product in products_list %}
+
+    <div class="col-sm-3" style="float:left;">
+    <div class="card">
+        <div class="container">
+
+
+            <img src="{{ url_for('static', filename = 'images/'+product.get_image()) }}" alt="">
+
+            <p><h5>Product Description:</h5>  {{ product.get_sku_description() }}</p>
+            <p><h5>Product price:</h5>  {{ product.get_price() }}</p>
+            {% if product.get_stock() == 0 %}
+                <h5>Stock:</h5> <p style="color:#FF0000;"> Out of stock </p>
+            {% elif product.get_stock() > 0 %}
+                <p><h5>Stock:</h5>  {{ product.get_stock() }}</p>
+                <a href="/createCart" class="btn btn-success">Add product</a>
+            {% endif %}
+
+
+
+        </div>
+    </div>
+    </div>
+
+{% endfor %}
+
+
+
+</body>
+
+
+<style>
+  body {
+  font-family: "Lato", sans-serif;
+  transition: background-color .5s;
+  background-repeat: no-repeat
+  background-attachment: fixed;
+  background-size: cover;
+  font:white;
+}
+
+/* home css */
+.background {
+text-align: center;
+font-size: 30px;
+color: white;
+background-color: black;
+width: 100%;
+height: 50%;
+padding: 17.5%;
+}
+.home-content {
+padding-top: 175px;
+text-align: center;
+}
+
+img {
+border-radius: 50%;
+height: 15vw;
+width: 15vw;
+}
+
+.choice-box {
+background-color: white;
+height: 500px;
+witdh: 100%;
+box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+border: 1px solid black;
+border-radius: 5px;
+max-width:450px;
+transition: 0.3s;
+display: inline-block;
+}
+
+/* create and retrieve css*/
+.table table-striped {
+max-width: 90%;
+background: white;
+}
+
+.form-container {
+     width: 80%;
+     height: 90%;
+     border: 0px;
+     margin: 30px;
+     background: white;
+     position: relative;
+     }
+
+.form-control {
+list-style-type:none;
+max-width:40%;
+}
+#form_form {
+max-width:400px;
+}
+
+/* retrieve css */
+.card {
+box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2);
+border: 1px solid black;
+border-radius: 5px;
+width:18rem;
+transition: 0.3s;
+display: inline-block;
+}
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.container {
+height: 100%;
+width: 100%
+margin: 30px;
+text-align: center;
+padding: 2px 16px;
+}
+
+</style>
+{% endblock %}

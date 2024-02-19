@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}ZHNG - Thank You page{% endblock %}
+
+{% block content %}
+
+<h1 class="display-4"></h1>
+
+<div class="jumbotron text-center">
+  {% if applied_promo %}
+  <h2 class="display-3">Successfully Applied Promo Code</h2>
+  {% endif %}
+  <h3 class="display-3">Total Payment: ${{total_amount}}</h3>
+  <h1 class="display-3">Thank You for shopping with us!</h1>
+    <h2 class="display-3">Please come back soon.</h2>
+  <p class="lead"><strong>Your order is processed and received.</strong> Please wait for further instructions on your order/s.</p>
+  <hr>
+  <p>
+    Having trouble? <a href="/contactUs">Contact us</a>
+  </p>
+  <p class="lead">
+    <a class="btn btn-info btn-sm" href="/" role="button">Continue to homepage</a>
+  </p>
+</div>
+
+{% endblock %}

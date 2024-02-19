@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Retrieve Customers{% endblock %}
+
+{% block content %}
+{% if 'customer_created' in session %}
+<div class="alert alert-success alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('customer_created', None) }} was created.
+</div>
+
+{% elif 'customer_updated' in session %}
+<div class="alert alert-warning alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('customer_updated', None) }} was updated.
+</div>
+
+{% elif 'customer_deleted' in session %}
+<div class="alert alert-danger alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  {{ session.pop('customer_deleted', None) }} was deleted.
+</div>
+{% endif %}
+
+<h1 class="display-4">Retrieve Customers</h1>
+<div>
+  {% if count == 0 %}
+  <p>There are no customers.</p>
+  {% elif count == 1 %}
+  <p>There is 1 customer.</p>
+  {% else %}
+  <p>There are {{ count }} customers.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Customer ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Mobile Number</th>
+        <th>Date Joined</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for customer in customers_list %}
+      <tr>
+        <td>{{ customer.get_customer_id() }}</td>
+        <td>{{ customer.get_first_name() }}</td>
+        <td>{{ customer.get_last_name() }}</td>
+        <td>{{ customer.get_username() }}</td>
+        <td>{{ customer.get_email() }}</td>
+        <td>{{ customer.get_mobile_number() }}</td>
+        <td>{{ customer.get_date_joined() }}</td>
+        <td>{{ customer.get_address() }}</td>
+
+        <td><a href="/updateCustomer/{{customer.get_customer_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_customer', id=customer.get_customer_id())}}" method="POST">
+
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{customer.get_customer_id()}}">
+              Delete
+            </button>
+
+            <!-- The Modal -->
+            <div class="modal" id="myModal_{{customer.get_customer_id()}}">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                  Are you sure you want to delete {{customer.get_first_name()}} {{customer.get_last_name()}}?
+                  </div>
+
+
+
+                  <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <input type="submit" value="Delete" class="btn btn-danger">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}ZHNG - RetrieveAppt{% endblock %}
+
+{% block content %}
+<h1>Retrieve Appointments</h1>
+<div>
+    {% if count == 0 %}
+    <p>There are no appointments</p>
+    {% elif count == 1 %}
+    <p>There is 1 appointment</p>
+    {% else %}
+    <p>There are {{ count }} appointments</p>
+    {% endif %}
+</div>
+<div>
+    <a href="/filterAppointment"><button>Filter Appointment</button></a>
+    <a href="/searchAppointment"><button>Search Appointment</button></a>
+</div>
+<div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Time</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Remarks</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for Appointment in appt_list %}
+        <tr>
+            <td>{{ Appointment.get_appt_id() }}</td>
+            <td>{{ Appointment.get_first_name() }} {{ Appointment.get_last_name() }}</td>
+            <td>{{ Appointment.get_username() }}</td>
+            <td>{{ Appointment.get_email() }}</td>
+            <td>{{ Appointment.get_time() }}</td>
+            <td>{{ Appointment.get_date() }}</td>
+            <td>{{ Appointment.get_location() }}</td>
+            <td>{{ Appointment.get_remarks() }}</td>
+            <td><a href="/updateAppointment/{{ Appointment.get_appt_id() }}" class="btn btn-warning">Update</a></td>
+            <td>
+                <form action="{{ url_for('delete_appt', id=Appointment.get_appt_id()) }}" method="POST">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{Appointment.get_appt_id() }}">
+                        Delete
+                    </button>
+
+                    <div class="modal" id="myModal_{{Appointment.get_appt_id()}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Delete Confirmation</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    Are you sure you want to delete {{Appointment.get_first_name()}}'s appointment?
+                                </div>
+
+                                <div class="modal-footer">
+                                    <input type="submit" value="Delete" class="btn btn-danger">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

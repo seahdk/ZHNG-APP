@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Car System - Retrieve Products{% endblock %}
+
+{% block content %}
+
+
+
+
+
+<br>
+        <form method="POST" action="{{ url_for('search') }}" class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search by sku or description" aria-label="Search" name="searched">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+
+
+
+<h1 class="display-4">Retrieve Products</h1>
+<hr>
+<div>
+  {% if count == 0 %}
+  <p>There are no products.</p>
+  {% elif count >= 1 %}
+  <p>There are {{ count }} products.</p>
+  {% endif %}
+</div>
+
+
+<div class="col-md-12 text-right">
+  <a href="/createProduct" class="btn btn-primary">Add Item</a>
+    <a href="/filterproduct">
+  <button type="button" class="btn btn-secondary"><span class="bi bi-filter"></span>Filter Product</button>
+        </a>
+</div>
+
+<div>
+  <table class="table table-hover">  <!--"table table-bordered"-->
+    <thead>
+      <tr>
+          <th>No.</th>
+          <th>sku</th>
+          <th>sku_description</th>
+          <th>price</th>
+          <th>stock</th>
+          <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for product in products_list %}
+     <tr>
+         <td>{{ product.get_product_id() }}</td>
+         <td>{{ product.get_sku() }}</td>
+         <td>
+            <a style="text-decoration: none" href="{{ url_for('view_product', id=product.get_product_id()) }}">{{ product.get_sku_description() }}</a>
+         </td>
+         <td>{{ product.get_price() }}</td>
+         <td>{{ product.get_stock() }}
+             {% if product.get_stock() < 5 %}
+                <i style="color:#DC3545;" class="bi bi-exclamation-circle-fill fg-danger"></i>
+             {% endif %}
+         </td>
+         <td>
+             {% if product.get_stock() == 0 %}
+                 <span class="text-danger">unavailable</span>
+             {% else %}
+                 <span class="text-success">available</span>
+             {% endif %}
+         </td>
+         <td><a href="/updateProduct/{{ product.get_product_id() }}" class="btn btn-warning">Update</a></td>
+         <td>
+             <form action="{{ url_for('delete_product', id=product.get_product_id()) }}" method="POST">
+                 <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {#product.get_sku()#} {#product.get_sku_description()#}?');">-->
+
+
+
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{product.get_product_id()}}">
+             Delete
+            </button>
+
+            <!-- The Modal -->
+              <div class="modal" id="myModal_{{product.get_product_id()}}">
+              <div class="modal-dialog">
+              <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Confirmation</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Are you sure you want to delete {{product.get_sku_description()}} ?
+            </div>
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <input type="submit" value="Delete" class="btn btn-danger">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
+      </div>
+      </div>
+    </div>
+</form>
+</td>
+</tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+

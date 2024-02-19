@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}ZHNG - Create Cart{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<h1 class="display-4">Select your product</h1>
+
+<form method="post" action="{{ url_for('confirm_price') }}">
+  <div class="form-group">
+      {{ render_field(form.description, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.color, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.qty, class="form-control") }}
+  </div>
+  <br>
+  <!-- <a href="" class="btn btn-success">Add to cart</a> -->
+  <input type="Submit" value="Check Price" class="btn btn-success" >
+</form>
+{% endblock %}

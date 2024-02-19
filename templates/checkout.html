@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}ZHNG - Checkout Page{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<h1 class="display-4">Checkout</h1>
+
+<form method="POST" action="{{ url_for('checkout') }}">
+  <input type="reset" value="Reset Fields" class="btn btn-danger"/>
+  <br>
+  <br>
+  <div class="form-group">
+    {{ render_field(form.card_type, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.card_number, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.name_on_card, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.expiry_date, class="form-control datepicker") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.cvvcode, class="form-control") }}
+  </div>
+  <div class="form-group">
+    {{ render_field(form.promocode, class="form-control") }}
+  </div>
+  <p>Total Payable: ${{ total_amount }}</p>
+  <br>
+  <p class="lead">
+    <input type="submit" value="Place Order" class="btn btn-success">
+  </p>
+  <br>
+  <p class="lead">
+    <a class="btn btn-secondary" href="{{ url_for('shipping') }}" role="button">Back to Shipping</a>
+  </p>
+</form>
+<script>
+function myFunction() {
+  document.getElementById("demo").innerHTML = "Promo Code Applied!";
+}
+</script>
+{% endblock %}

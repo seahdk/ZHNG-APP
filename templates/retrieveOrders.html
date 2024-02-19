@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Car System - Retrieve Orders page{% endblock %}
+
+{% block content %}
+
+
+
+<h1 class="display-4">Retrieve all orders</h1>
+<hr>
+<div>
+  {% if count == 0 %}
+  <p>There are no orders.</p>
+  {% elif count >= 1 %}
+  <p>There are {{ count }} orders.</p>
+  {% endif %}
+</div>
+
+
+
+<div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+          <th>No.</th>
+          <th>color</th>
+          <th>description</th>
+          <th>quantity</th>
+          <th>total</th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for detail in cart_list %}
+     <tr>
+         <td>{{ detail.get_cart_id() }}</td>
+         <td>{{ detail.get_color() }}</td>
+         <td>{{ detail.get_description() }}</td>
+         <td>{{ detail.get_qty() }}</td>
+
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+

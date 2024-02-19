@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}ZHNG - Confirmation{% endblock %}
+{% block content %}
+
+<div class="content">
+    <h1 class="display-3">Confirmation</h1>
+    <h2 class="display-5">Dear {{ appointment.get_first_name() }}, your appointment has been booked successfully!</h2>
+    <table class="ctable">
+        <tr>
+            <td><h3 class="display-6">Centre:</h3></td>
+            <td><h3 class="display-6">&nbsp;{{ appointment.get_location() }}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="display-6">Date:</h3></td>
+            <td><h3 class="display-6">&nbsp;{{ appointment.get_date() }}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="display-6">Time:</h3></td>
+            <td><h3 class="display-6">&nbsp;{{ appointment.get_time() }}</h3></td>
+        </tr>
+        <tr>
+            <td><h3 class="display-6">Appointment ID:</h3></td>
+            <td><h3 class="display-6">&nbsp;{{ appointment.get_appt_id() }}</h3></td>
+        </tr>
+    </table>
+    <a href="/home" class="btn btn-primary">Back to Home</a>
+</div>
+{% endblock %}
+<style>
+    body {
+    text-align: center;
+    padding: 50px;
+    }
+    .ctable {
+    border: 0px;
+    margin: 25px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+    }
+    .content {
+    padding: 50px;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background: blue;
+    }
+</style>

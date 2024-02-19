@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Car System - Retrieve Promo{% endblock %}
+
+{% block content %}
+
+<br>
+
+
+
+<h1 class="display-4">Retrieve Promo</h1>
+<hr>
+<div>
+  {% if count == 0 %}
+  <p>There are no promos.</p>
+  {% elif count >= 1 %}
+  <p>There are {{ count }} promos.</p>
+  {% endif %}
+</div>
+
+
+<div class="col-md-12 text-right">
+  <a href="/createPromo" class="btn btn-primary">Add New Promo</a>
+</div>
+
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+          <th>No.</th>
+          <th>code</th>
+          <th>discount</th>
+          <th>quantity</th>
+          <th>expiry</th>
+          <th>notes</th>
+          <th>status</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for promo in promos_list %}
+      <tr>
+        <td>{{ promo.get_number_id() }}</td>
+        <td>{{ promo.get_code() }}</td>
+        <td>{{ promo.get_discount() }}</td>
+        <td>{{ promo.get_quantity() }}</td>
+        <td>{{ promo.get_expiry() }}</td>
+        <td>{{ promo.get_notes() }}</td>
+        <td>{% if promo.get_status() == 'U' or promo.get_quantity() == 0 %}
+                <span class="text-danger">Unavailable</span>
+            {% elif promo.get_status() == 'A' or promo.get_quantity() == 0 %}
+                 <span class="text-success">Available</span>
+            {% endif %}
+
+        </td>
+        <td><a href="/updatePromo/{{promo.get_number_id()}}" class="btn btn-warning">Update</a></td>
+        <td>
+          <form action="{{url_for('delete_promo', id=promo.get_number_id())}}" method="POST">
+            <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {#product.get_sku()#} {#product.get_sku_description()#}?');">-->
+
+
+
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{promo.get_number_id()}}">
+             Delete
+            </button>
+
+            <!-- The Modal -->
+              <div class="modal" id="myModal_{{promo.get_number_id()}}">
+              <div class="modal-dialog">
+              <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Delete Confirmation</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+              Are you sure you want to delete {{promo.get_code()}} ?
+            </div>
+
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <input type="submit" value="Delete" class="btn btn-danger">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+
+      </div>
+      </div>
+    </div>
+</form>
+</td>
+</tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
